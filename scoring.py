@@ -74,11 +74,11 @@ def calculate_pronunciation_accuracy(word_pronunciation_scores, fluency_score, b
     fluency_score = fluency_score / 100
 
     avg_pronunciation_score = (avg_pronunciation_score - 1) / 2
-    avg_weight = 0.8
-    flu_weight = 0.2
+    avg_weight = 0.75
+    flu_weight = 0.25
     combined_score = avg_weight * avg_pronunciation_score + flu_weight * fluency_score
     # Scale to 10% - 90%
-    final_score = 10 + combined_score * 90  
+    final_score = 10 + combined_score * 80  
 
     return final_score
 

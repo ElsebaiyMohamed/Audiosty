@@ -18,7 +18,14 @@ def create_html_from_scores(word_scores):
 def generate_progress_bar(score, label):
     score = round(score, 2)
     score_text = f"{score:.2f}" if score < 90 else "90"
-    bar_color = "#dc3545" if score < 30 else "#ffc107" if score < 60 else "#28a745"
+    if score < 25:
+        bar_color = "#dc3545" 
+    elif score < 50:
+        bar_color = "#dc6545" 
+    elif score < 75:
+        bar_color = "#ffc107"
+    else:
+        bar_color = "#28a745"
     bar_length = f"{(score / 90) * 100}%"
     return f"""
     <div class="progress-label">{label}:</div>
