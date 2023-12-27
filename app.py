@@ -152,4 +152,4 @@ iface = gr.Interface(fn=analyze_audio,
 
 # Run the Gradio app
 if __name__ == "__main__":
-    iface.launch()
+    iface.launch(share=True)
