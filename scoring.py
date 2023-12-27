@@ -14,7 +14,7 @@ def calculate_expected_value(scores):
 def calculate_fluency_score(audio_path, total_words, word_pronunciation_scores, base_script_len): 
     
     avg_pronunciation_score = calculate_expected_value(word_pronunciation_scores)
-    if (total_words / base_script_len) < 0.15 or avg_pronunciation_score < 1.5:
+    if (total_words / (base_script_len + 1e-7)) < 0.15 or avg_pronunciation_score < 1.5:
         return 10
     audio, sr = librosa.load(audio_path)
     non_silent_intervals = librosa.effects.split(audio, top_db=22)
