@@ -1,6 +1,6 @@
 from phonemizer.separator import Separator
 from phonemizer import phonemize
-# from phonemizer.backend.espeak.wrapper import EspeakWrapper
+from phonemizer.backend.espeak.wrapper import EspeakWrapper
 from Levenshtein import distance as levenshtein_distance    
 from scoring import calculate_fluency_and_pronunciation
 
@@ -12,7 +12,7 @@ device = 'cuda:0' if torch.cuda.is_available() else 'cpu'
 model = whisper.load_model("base.en", device=device)
 separator = Separator(phone=None, word='',)
 
-# EspeakWrapper.set_library(r"C:\Program Files\eSpeak NG\libespeak-ng.dll")
+EspeakWrapper.set_library(r"C:\Program Files\eSpeak NG\libespeak-ng.dll")
 
 def transcribe(audio):
     result = model.transcribe(audio, word_timestamps=False, no_speech_threshold=0.4,  compression_ratio_threshold=2, temperature=0)

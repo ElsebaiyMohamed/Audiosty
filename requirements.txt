@@ -1,9 +1,10 @@
-gunicorn 
 phonemizer
 wave
 torch
 openai-whisper
-gradio
+flask
+Flask-Cors
+pydub
 scipy
 numpy 
 resampy
