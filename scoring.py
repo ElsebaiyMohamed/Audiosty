@@ -17,14 +17,14 @@ def calculate_fluency_score(audio_path, total_words, word_pronunciation_scores, 
     if (total_words / (base_script_len + 1e-7)) < 0.15 or avg_pronunciation_score < 1.5:
         return 10
     audio, sr = librosa.load(audio_path)
-    non_silent_intervals = librosa.effects.split(audio, top_db=22)
+    non_silent_intervals = librosa.effects.split(audio, top_db=25,)
     non_silent_duration = sum([intv[1] - intv[0] for intv in non_silent_intervals]) / sr
     
     total_duration = len(audio) / sr
     
-    non_silent_duration = non_silent_duration
+    # non_silent_duration = non_silent_duration
     ideal_min_rate, ideal_max_rate = 120 / 60, 140 / 60
-    actual_speech_rate = (total_words / (non_silent_duration + 1e-7)) * (total_words / base_script_len)
+    actual_speech_rate = (total_words / (total_duration + 1e-7))
     speaking_ratio = non_silent_duration / total_duration
     # Existing speech rate score calculation
  
@@ -42,23 +42,25 @@ def calculate_fluency_score(audio_path, total_words, word_pronunciation_scores, 
         speech_rate_score = 0.7 / max_ratio
     
     # If speaking ratio is significantly less than the gold standard, reduce the fluency score
-    gold_standard_ratio = 0.9  # Assuming 90% speaking time is gold standard for natural speech
-    speaking_ratio_score = min(speaking_ratio / gold_standard_ratio, 1)
+    # gold_standard_ratio = 0.9  # Assuming 90% speaking time is gold standard for natural speech
+    # speaking_ratio = speaking_ratio / gold_standard_ratio
+    speaking_ratio_score = min(speaking_ratio, 1)
     
 
     # Pronunciation score calculation
     avg_pronunciation_score = (avg_pronunciation_score - 1) / 2
 
-    # pronunciation_variance = np.var(word_pronunciation_scores, ddof=1,)
+    # pronunciation_variance = np.var(audio, ddof=1,)
+    # print(pronunciation_variance)
 
     # Weighted combination of scores
     # Adjust weights as needed
-    weight_speech_rate = 0.30
-    weight_speaking_ratio = 0.20
-    weight_pronunciation = 0.50
+    weight_speech_rate = 0.35
+    weight_speaking_ratio = 0.25
+    weight_pronunciation = 0.40
     # weight_pronunciation_variance = 0.10
 
-    combined_score = speech_rate_score * weight_speech_rate + speaking_ratio_score * weight_speaking_ratio + avg_pronunciation_score * weight_pronunciation 
+    combined_score = (speech_rate_score * weight_speech_rate + speaking_ratio_score * weight_speaking_ratio + avg_pronunciation_score * weight_pronunciation )
     
     # Scale the combined score to be between 10% and 100%
     scaled_fluency_score = 10 + combined_score * 80

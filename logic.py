@@ -1,7 +1,5 @@
-from phonemizer.separator import Separator
-from phonemizer import phonemize
-# from phonemizer.backend.espeak.wrapper import EspeakWrapper
-from Levenshtein import distance as levenshtein_distance    
+from g2p_en import G2p
+from string import punctuation 
 from scoring import calculate_fluency_and_pronunciation
 
 import whisper 
@@ -10,35 +8,56 @@ import torch
 device = 'cuda:0' if torch.cuda.is_available() else 'cpu'
 
 model = whisper.load_model("base.en", device=device)
-separator = Separator(phone=None, word='',)
-
-# EspeakWrapper.set_library(r"C:\Program Files\eSpeak NG\libespeak-ng.dll")
 
 def transcribe(audio):
     result = model.transcribe(audio, word_timestamps=False, no_speech_threshold=0.4,  compression_ratio_threshold=2, temperature=0)
     return {'language': result['language'], 'text': result['text']}
 
+def remove_punctuation(text):
+    return ''.join(list(map(lambda x: '' if x in punctuation else x, text)))
 def text2phoneme(text):
-    return phonemize(text.lower().split(), backend='espeak' , separator=separator, strip=True, with_stress=False, tie=False, language='en-us')
+    g2p = G2p()
+    text = text.lower()
+    text = remove_punctuation(text)
+    phonemes = g2p(text)
+    phonemes.append(' ')
+    new_phones = list()
+    word = []
+    for ph in phonemes:
+        if ph == ' ':
+            new_phones.append(word)
+            word = []
+        else:
+            word.append(ph)
+    return new_phones
+
 
 def rate_pronunciation(expected_phonemes, actual_phonemes):
     expected_phonemes = expected_phonemes
     actual_phonemes = actual_phonemes
     # Calculate the Levenshtein distance between the two phoneme sequences
     results = []
-    for i, base_word in enumerate(actual_phonemes):
+    for i, base_word in enumerate(actual_phonemes): # ['ss', 'ad', ss]
         best_dist = float('inf')
         if i <= len(expected_phonemes): 
-            for j in range(max(0, i-1), i + min(3, len(expected_phonemes) - i)):
-                dist = levenshtein_distance(expected_phonemes[j], base_word,)
-                if dist < best_dist:
-                    best_dist = dist
-                if best_dist == 0:  # Early stopping on perfect match
+            word_best_score = float('inf')
+            for window_idx in range(i, i + min(2, len(expected_phonemes) - i)):
+                expected_word = expected_phonemes[window_idx]
+                missed = 0
+                for b_ph, ex_ph in zip(base_word, expected_word):
+                    if b_ph != ex_ph:
+                        missed += 1
+                missed += abs(len(base_word) - len(expected_word))
+                missed = missed / len(base_word)
+                if missed < word_best_score:
+                    word_best_score = missed
+                if -0.000001 < word_best_score < 0.000001:
+                    word_best_score = 0
                     break
-        error_threshold = len(base_word) * 0.40
-        if best_dist == 0:
+
+        if word_best_score == 0:
            results.append(3) 
-        elif best_dist <= error_threshold:
+        elif word_best_score <= 0.30:
             results.append(2) 
         else:
             results.append(1) 
