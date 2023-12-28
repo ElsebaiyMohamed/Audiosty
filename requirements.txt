@@ -1,12 +1,11 @@
-phonemizer
-wave
-torch
-openai-whisper
 flask
 Flask-Cors
 pydub
+g2p-en
+wave
+torch
+openai-whisper
 scipy
 numpy 
 resampy
-Levenshtein
 librosa
