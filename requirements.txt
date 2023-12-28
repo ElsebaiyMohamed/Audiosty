@@ -1,5 +1,5 @@
 gunicorn 
-phonemizer
+g2p-en
 wave
 torch
 openai-whisper
@@ -7,5 +7,4 @@ gradio
 scipy
 numpy 
 resampy
-Levenshtein
 librosa
