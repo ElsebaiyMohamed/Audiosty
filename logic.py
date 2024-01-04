@@ -47,7 +47,9 @@ def rate_pronunciation(expected_phonemes, actual_phonemes):
                 for b_ph, ex_ph in zip(base_word, expected_word):
                     if b_ph != ex_ph:
                         missed += 1
-                missed += abs(len(base_word) - len(expected_word))
+                len_error = abs(len(base_word) - len(expected_word))
+                missed = missed * 0.5
+                missed += len_error
                 missed = missed / len(base_word)
                 if missed < word_best_score:
                     word_best_score = missed
@@ -57,7 +59,7 @@ def rate_pronunciation(expected_phonemes, actual_phonemes):
 
         if word_best_score == 0:
            results.append(3) 
-        elif word_best_score <= 0.30:
+        elif word_best_score <= 0.40:
             results.append(2) 
         else:
             results.append(1) 

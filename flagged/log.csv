@@ -1,0 +1,96 @@
+Training Text,Recoreded Audio,Analysis of pronunciation,flag,username,timestamp
+"Across the globe, there is a widespread effort to explore methods for extracting carbon dioxide from the atmosphere or power plant emissions and transforming it into a valuable resource. Among the various ideas being explored, the concept of converting carbon dioxide into a stable fuel shows significant promise.","{""path"":""flagged\\Recoreded Audio\\32934e865e05d94b8f02\\57-RA-ECD.mp3"",""url"":""http://127.0.0.1:7860/file=C:\\Users\\20101\\AppData\\Local\\Temp\\gradio\\83487b0f0f864b6dac30e27f3b94561cab129542\\57-RA-ECD.mp3"",""size"":301056,""orig_name"":""57-RA-ECD.mp3"",""mime_type"":""""}","'
+    <style>
+    .legend {
+      font-size: 22px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .legend-dot {
+        height: 15px;
+        width: 15px;
+        border-radius: 50%;
+        display: inline-block;
+      }
+      
+    .good { color: #28a745; 
+    }
+    .average { color: #ffc107; 
+    }
+    .bad { color: #dc3545;
+    }
+        
+    .text {
+        font-size: 20px;
+        margin-bottom: 20px;
+      }
+
+    .progress-container {
+        width: 100%;
+        background-color: #ddd;
+        border-radius: 13px;
+        overflow: hidden;
+      }
+
+    .progress-bar {
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+        font-size: 16px;
+        border-radius: 15px;
+        transition: width 1s ease;
+      }
+
+    .progress-label {
+        font-weight: bold;
+        font-size: 22px;
+        margin-bottom: 20px;
+        margin-top: 5px;
+        text-align: center;
+      }
+
+    .progress-score {
+        display: inline-block;
+        color: black;
+      }
+
+    .progress-max {
+        text-align: right;
+        margin: 10px;
+        font-size: 16px;
+      }
+        
+    </style>
+    
+    
+    <div class=""legend"">
+      <span class=""legend-dot"" style=""background-color: #28a745;""></span><span>Good</span>
+      <span class=""legend-dot"" style=""background-color: #ffc107;""></span><span>Understandable</span>
+      <span class=""legend-dot"" style=""background-color: #dc3545;""></span><span>Bad</span>
+    </div>
+    
+    <p class=""text"">
+      <span style=""color: #28a745;"">Across</span> <span style=""color: #28a745;"">the</span> <span style=""color: #28a745;"">globe,</span> <span style=""color: #28a745;"">there</span> <span style=""color: #28a745;"">is</span> <span style=""color: #28a745;"">a</span> <span style=""color: #dc3545;"">widespread</span> <span style=""color: #dc3545;"">effort</span> <span style=""color: #dc3545;"">to</span> <span style=""color: #28a745;"">explore</span> <span style=""color: #28a745;"">methods</span> <span style=""color: #28a745;"">for</span> <span style=""color: #28a745;"">extracting</span> <span style=""color: #28a745;"">carbon</span> <span style=""color: #28a745;"">dioxide</span> <span style=""color: #28a745;"">from</span> <span style=""color: #28a745;"">the</span> <span style=""color: #28a745;"">atmosphere</span> <span style=""color: #28a745;"">or</span> <span style=""color: #28a745;"">power</span> <span style=""color: #28a745;"">plant</span> <span style=""color: #28a745;"">emissions</span> <span style=""color: #28a745;"">and</span> <span style=""color: #28a745;"">transforming</span> <span style=""color: #28a745;"">it</span> <span style=""color: #28a745;"">into</span> <span style=""color: #dc3545;"">a</span> <span style=""color: #ffc107;"">valuable</span> <span style=""color: #ffc107;"">resource.</span> <span style=""color: #28a745;"">Among</span> <span style=""color: #28a745;"">the</span> <span style=""color: #28a745;"">various</span> <span style=""color: #28a745;"">ideas</span> <span style=""color: #28a745;"">being</span> <span style=""color: #28a745;"">explored,</span> <span style=""color: #28a745;"">the</span> <span style=""color: #dc3545;"">concept</span> <span style=""color: #dc3545;"">of</span> <span style=""color: #28a745;"">converting</span> <span style=""color: #28a745;"">carbon</span> <span style=""color: #28a745;"">dioxide</span> <span style=""color: #28a745;"">into</span> <span style=""color: #28a745;"">a</span> <span style=""color: #28a745;"">stable</span> <span style=""color: #dc3545;"">fuel</span> <span style=""color: #dc3545;"">shows</span> <span style=""color: #28a745;"">significant</span> <span style=""color: #28a745;"">promise.</span> 
+    </p>
+
+    
+    <div class=""progress-label"">Pronunciation Accuracy:</div>
+    <div class=""progress-container"">
+        <div class=""progress-bar"" style=""width: 81.44444444444444%; background-color: #ffc107;"">
+            <div class=""progress-score"">73.30</div>
+        </div>
+    </div>
+    <div class=""progress-max"">Max: 90</div>
+    
+    
+    <div class=""progress-label"">Fluency Score:</div>
+    <div class=""progress-container"">
+        <div class=""progress-bar"" style=""width: 80.84444444444445%; background-color: #ffc107;"">
+            <div class=""progress-score"">72.76</div>
+        </div>
+    </div>
+    <div class=""progress-max"">Max: 90</div>
+    
+    ",,,2024-01-04 16:16:55.614653

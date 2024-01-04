@@ -1,8 +1,18 @@
-import librosa
+from allosaurus.app import read_recognizer
 
+# load your model by the <model name>, will use 'latest' if left empty
+model = read_recognizer('latest')
 
-audio_path = r"D:\Projects\Audio_funct\uploads\OSR_us_000_0011_8k.wav"
-audio, sr = librosa.load(audio_path)
-ons = librosa.onset.onset_detect(y=audio, sr=sr, units='samples')
+# # run inference on <audio_file> with <lang>, lang will be 'ipa' if left empty
+# y = model.recognize(r"C:\Users\20101\Downloads\LDC93S1.wav", 'ipa', timestamp=False)
+# print(y)
+# print()
 
-print(librosa.feature.tempo(y=audio, sr=sr, onset_envelope=ons,))
+# y = model.recognize(r"C:\Users\20101\Downloads\LDC93S1.wav", 'eng' , timestamp=False)
+# print(y)
+
+import phonemizer
+text = 'Hello'
+ipa = phonemizer.phonemize(text,)
+
+print(ipa)
