@@ -11,6 +11,7 @@ device = 'cuda:0' if torch.cuda.is_available() else 'cpu'
 
 model = whisper.load_model("base.en", device=device)
 separator = Separator(phone=None, word='',)
+# from phonemizer.backend.espeak.wrapper import EspeakWrapper
 
 # EspeakWrapper.set_library(r"C:\Program Files\eSpeak NG\libespeak-ng.dll")
 
