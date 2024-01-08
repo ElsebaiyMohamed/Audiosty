@@ -1,32 +1,35 @@
 import gradio as gr
-from logic import Speaker_speech_analysis
+# from logic import Speaker_speech_analysis
 from scipy.io import wavfile
+from wav2vec_aligen import speaker_pronunciation_assesment
 
 
 
-def create_html_from_scores(word_scores):
+def create_html_from_scores(word_levels):
     html_output = ''
-    for word, score in word_scores:
-        if score == 1:
-            html_output += f'<span style="color: #dc3545;">{word}</span> '
-        elif score == 2:
-            html_output += f'<span style="color: #ffc107;">{word}</span> '
+    for word, level in word_levels:
+        if level == '/':
+            html_output += f'<span style="color: #0000ff;">{level}</span> '
+        elif level == 'Wrong':
+          html_output += f'<span style="color: #dc3545;">{word}</span> '
+        elif level == 'Understandable':
+          html_output += f'<span style="color: #ffc107;">{word}</span> '
         else:
             html_output += f'<span style="color: #28a745;">{word}</span> '
     return html_output
   
 def generate_progress_bar(score, label):
     score = round(score, 2)
-    score_text = f"{score:.2f}" if score < 90 else "90"
-    if score < 25:
+    score_text = f"{score:.2f}" if score < 100 else "100"
+    if score < 30:
         bar_color = "#dc3545" 
-    elif score < 50:
+    elif score < 60:
         bar_color = "#dc6545" 
-    elif score < 75:
+    elif score < 80:
         bar_color = "#ffc107"
     else:
         bar_color = "#28a745"
-    bar_length = f"{(score / 90) * 100}%"
+    bar_length = f"{(score / 100) * 100}%"
     return f"""
     <div class="progress-label">{label}:</div>
     <div class="progress-container">
@@ -34,7 +37,7 @@ def generate_progress_bar(score, label):
             <div class="progress-score">{score_text}</div>
         </div>
     </div>
-    <div class="progress-max">Max: 90</div>
+    <div class="progress-max">Max: 100</div>
     """
 # CSS to be used in the Gradio Interface
 
@@ -43,18 +46,23 @@ def generate_progress_bar(score, label):
 
 def analyze_audio(text, audio):
 # Write the processed audio to a temporary WAV file
+    if text is None or audio is None:
+      return 'the audio or the text is missing'
     temp_filename = 'temp_audio.wav'
     wavfile.write(temp_filename, audio[0], audio[1])
 
 
-    result = Speaker_speech_analysis(temp_filename, text)
+    result = speaker_pronunciation_assesment(temp_filename, text)
     accuracy_score = result['pronunciation_accuracy']
-    fluency_score  = result['fluency_score']
-    word_scores    = result['word_scores']
+    fluency_score   = result['fluency_score']
+    word_levels      = result['word_levels']
+    content_scores = result['content_scores']
+    wpm                = result['wpm']
     
-    html_content = create_html_from_scores(word_scores)
+    html_content = create_html_from_scores(word_levels)
     pronunciation_progress_bar = generate_progress_bar(accuracy_score, "Pronunciation Accuracy")
     fluency_progress_bar = generate_progress_bar(fluency_score, "Fluency Score")
+    content_progress_bar = generate_progress_bar(content_scores, "Content Score")
     
     
     html_with_css = f"""
@@ -78,6 +86,9 @@ def analyze_audio(text, audio):
     .average {{ color: #ffc107; 
     }}
     .bad {{ color: #dc3545;
+    }}
+    
+    .wrong {{ color: #dc3545;
     }}
         
     .text {{
@@ -127,15 +138,23 @@ def analyze_audio(text, audio):
       <span class="legend-dot" style="background-color: #28a745;"></span><span>Good</span>
       <span class="legend-dot" style="background-color: #ffc107;"></span><span>Understandable</span>
       <span class="legend-dot" style="background-color: #dc3545;"></span><span>Bad</span>
+      <span class="legend-dot" style="background-color: #0000ff;"></span><span>No Speech</span>
     </div>
     
     <p class="text">
       {html_content}
     </p>
+    
+    <p class="text">
+      <span style="color: #0000ff;">Word Per Minute {wpm:0.2f}</span>
+    </p>
 
     {pronunciation_progress_bar}
     {fluency_progress_bar}
+    {content_progress_bar}
     """
+        # 
+
     return html_with_css
 
 # Define the Gradio interface
