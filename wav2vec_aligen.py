@@ -7,7 +7,7 @@ import scipy.stats as stats
 
 os.environ['PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION'] = 'python'
 os.environ['MODEL_IS_LOADED'] = '0'
-os.environ['PHONEMIZER_ESPEAK_LIBRARY'] = "C:\Program Files\eSpeak NG\libespeak-ng.dll"
+# os.environ['PHONEMIZER_ESPEAK_LIBRARY'] = "C:\Program Files\eSpeak NG\libespeak-ng.dll"
 os.environ['TRANSFORMERS_NO_ADVISORY_WARNINGS'] = '1'
 os.environ['TRANSFORMERS_VERBOSITY'] = 'error'
 from transformers import Wav2Vec2Processor, Wav2Vec2ForCTC
@@ -181,9 +181,7 @@ def calculate_content_scores(word_levels):
         if c == '/':
             content_scores -= 1
         elif c == 'Wrong':
-            content_scores -= 0.3
-        elif c == 'Understandable':
-            content_scores -= 0.1
+            content_scores -= 0.5
         else:None
     content_scores = (content_scores / len(word_levels)) * 100
     return content_scores
