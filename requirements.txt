@@ -7,3 +7,4 @@ resampy
 librosa
 transformers
 phonemizer
+pydub
