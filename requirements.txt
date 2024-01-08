@@ -1,9 +1,9 @@
-g2p-en
 wave
 torch
-openai-whisper
-gradio
+optimum
 scipy
 numpy 
 resampy
 librosa
+transformers
+phonemizer
